@@ -1,4 +1,4 @@
-package jp.co.systena.tigerscave.springtest;
+package jp.co.systena.tigerscave.springtest.model.form;
 
 public class ListForm {
   private int itemId;

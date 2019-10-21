@@ -1,7 +1,8 @@
-package jp.co.systena.tigerscave.springtest;
+package jp.co.systena.tigerscave.springtest.service;
 
 import java.util.HashMap;
 import java.util.Map;
+import jp.co.systena.tigerscave.springtest.model.display.Item;
 
 public class ListService {
   private final int ITEMS_COUNT = 3;
