@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>ItemList</title>
+</head>
+<body>
+  <h1 th:text="商品一覧"></h1>
+  <table>
+    <tr th:each="item : ${map}">
+      <form action="#" th:action="@{/order}" th:object="${form}" method="post">
+        <td th:text="${item.getValue().getName()}"></td>
+        <td th:text="${item.getValue().getPrice()}"></td>
+        <td><input type="submit" value="カートに入れる" /></td>
+        <input type="hidden" name="itemId" value="${item.getValue().getItemId()}"/>
+      </form>
+    </tr>
+  </table>
+</body>
+</html>
