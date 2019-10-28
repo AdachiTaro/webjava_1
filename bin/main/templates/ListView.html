@@ -8,12 +8,14 @@
   <h1 th:text="商品一覧"></h1>
   <table>
     <tr th:each="item : ${map}">
-      <form th:action="@{/order}" th:object="${order}" method="post">
-        <td th:text="${item.getValue().getName()}"></td>
-        <td th:text="${item.getValue().getPrice()}"></td>
-        <td><button type="submit" value="${item.getValue().getItemId()" />カートに入れる</td>
-        <input type="hidden" name="itemId" value="${item.getValue().getItemId()"/>
-      </form>
+      <td th:text="${item.getValue().getName()}"></td>
+      <td th:text="${item.getValue().getPrice()}"></td>
+      <td>
+        <form th:action="@{/order}" th:object="${order}" method="post">
+          <input type="hidden" name="itemId" th:value="${item.getValue().getItemId()}" />
+          <input type="submit" value="カートに入れる" />
+        </form>
+      </td>
     </tr>
   </table>
 </body>
