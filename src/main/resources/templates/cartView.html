@@ -6,11 +6,10 @@
 </head>
 <body>
   <h1 th:text="カート"></h1>
-  session.setAttribute
-  <table>
-    <tr>
-      <td>[[${CartItem.name}]]</td>
-      <td>[[${CartItem.price}]]円</td>
+  <table th:object=${CartItem}>
+    <tr th:each="item : ${CartItem}">
+      <td>[[${item.name}]]</td>
+      <td>[[${item.price}]]円</td>
     </tr>
   </table>
 

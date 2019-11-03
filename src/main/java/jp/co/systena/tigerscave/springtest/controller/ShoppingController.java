@@ -1,5 +1,7 @@
 package jp.co.systena.tigerscave.springtest.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import jp.co.systena.tigerscave.springtest.model.display.Cart;
+import jp.co.systena.tigerscave.springtest.model.display.Item;
 import jp.co.systena.tigerscave.springtest.model.display.Order;
 import jp.co.systena.tigerscave.springtest.model.form.ListForm;
 import jp.co.systena.tigerscave.springtest.service.ListService;
@@ -18,6 +21,7 @@ import jp.co.systena.tigerscave.springtest.service.ListService;
 public class ShoppingController {
   ListService mListService = new ListService();
   Map mItemList = null;
+  Cart mCart = new Cart();
 
   @Autowired
   HttpSession session;
@@ -39,27 +43,37 @@ public class ShoppingController {
   }
 
   @RequestMapping(value = "/order", method = RequestMethod.POST)
-  public ModelAndView order(ModelAndView mav, ListForm listForm) {
+  public ModelAndView order(HttpSession session, ModelAndView mav, ListForm listForm) {
+    // 押された商品のID
     int itemId = listForm.getItemId();
 
+    // 商品IDからOrderオブジェクト生成
     Order order = new Order();
     order.setItemId(itemId);
-    Cart cart = new Cart();
-    cart.addOrder(order);
 
-    session.setAttribute("cartList", cart);
+    // CartのorderListにOrderオブジェクトをadd
+    mCart.addOrder(order);
 
-    Object sessionCart = session.getAttribute("cartList");
+    // セッションにカートの情報を保存
+    session.setAttribute("cartList", mCart);
 
+    // セッションからカート情報を取得
+    Object cartList = session.getAttribute("cartList");
 
-    mav.addObject(sessionCart);
-//    for (Object key : mItemList.keySet()) {
-//      Item cartItem = (Item) mItemList.get(key);
-//      if (itemId == cartItem.getItemId()) {
-//        mav.addObject("CartItem", cartItem);
-//        break;
-//      }
-//    }
+    // 注文番号の羅列
+    List<Order> orderList = ((Cart) cartList).getOrderList();
+
+    // 注文商品一覧
+    List<Item> orderItemList = new ArrayList<>();
+
+    // 注文番号と一致する商品を注文商品一覧に格納
+    for (int i = 0; i < orderList.size(); i++) {
+      int orderId = orderList.get(i).getItemId();
+      Item cartItem = (Item) mItemList.get(Integer.toString(orderId));
+      orderItemList.add(cartItem);
+    }
+
+    mav.addObject("CartItem", orderItemList);
 
     mav.setViewName("cartView");
 
