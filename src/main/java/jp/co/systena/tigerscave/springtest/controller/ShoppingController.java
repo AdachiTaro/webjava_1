@@ -46,10 +46,12 @@ public class ShoppingController {
   public ModelAndView order(HttpSession session, ModelAndView mav, ListForm listForm) {
     // 押された商品のID
     int itemId = listForm.getItemId();
+    int itemQuantity = listForm.getNum();
 
     // 商品IDからOrderオブジェクト生成
     Order order = new Order();
     order.setItemId(itemId);
+    order.setNum(itemQuantity);
 
     // CartのorderListにOrderオブジェクトをadd
     mCart.addOrder(order);

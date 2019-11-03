@@ -9,9 +9,12 @@
   <table>
     <tr th:each="item : ${map}">
       <td th:text="${item.getValue().getName()}"></td>
-      <td th:text="${item.getValue().getPrice()}"></td>
+      <td th:text="${item.getValue().getPrice()} + '円'"></td>
       <td>
         <form th:action="@{/order}" th:object="${order}" method="post">
+          <select th:name="num">
+            <option th:each="i : ${#numbers.sequence(1, 10)}" th:value="${i}" th:text="${i}"></option>
+          </select>
           <input type="hidden" name="itemId" th:value="${item.getValue().getItemId()}" />
           <input type="submit" value="カートに入れる" />
         </form>
