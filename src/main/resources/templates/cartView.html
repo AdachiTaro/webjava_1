@@ -10,9 +10,19 @@
     <tr th:each="order : ${cart.orderList}">
       <td th:text=${itemList[order.itemId.toString()].name}></td>
       <td th:text=${itemList[order.itemId.toString()].price}></td>
+      <td th:text="円"></td>
       <td th:text=${order.num}></td>
-      <!-- 円とか個とか出てないけど今は後回し -->
+      <td th:text="個"></td>
+      <td th:text="合計"></td>
+      <td th:text=${itemList[order.itemId.toString()].price}*${order.num}></td>
+      <td th:text="円"></td>
+      <!-- TODO:円とか個とか無理やり出しているけど今は後回し -->
+    </tr>
 
+    <tr>
+      <td th:text="カート合計"></td>
+      <td th:text=${cart.totalAmount}></td>
+      <td th:text="円"></td>
     </tr>
   </table>
 

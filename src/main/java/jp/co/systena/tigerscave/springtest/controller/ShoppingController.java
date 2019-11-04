@@ -43,6 +43,10 @@ public class ShoppingController {
     // 押された商品のID
     int itemId = listForm.getItemId();
     int itemQuantity = listForm.getNum();
+    Map itemList = null;
+    if (mListService != null) {
+      itemList = mListService.getItemList();
+    }
 
     // 商品IDからOrderオブジェクト生成
     Order order = new Order();
@@ -52,15 +56,15 @@ public class ShoppingController {
     // CartのorderListにOrderオブジェクトをadd
     mCart.addOrder(order);
 
+    // Cartで合計金額を設定
+    mCart.setTotalAmount(itemList);
+
     // セッションにカートの情報を保存
     session.setAttribute("cartList", mCart);
 
     // セッションからカート情報を取得
     Cart cart = (Cart) session.getAttribute("cartList");
-    Map itemList = null;
-    if (mListService != null) {
-      itemList = mListService.getItemList();
-    }
+
     mav.addObject("itemList", itemList);
 
     mav.addObject("cart", cart);
