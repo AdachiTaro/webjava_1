@@ -14,8 +14,16 @@
       <td th:text=${order.num}></td>
       <td th:text="個"></td>
       <td th:text="合計"></td>
-      <td th:text=${itemList[order.itemId.toString()].price}*${order.num}></td>
+      <td
+        th:text=${itemList[order.itemId.toString()].price}*${order.num}></td>
       <td th:text="円"></td>
+      <td>
+        <form th:action="@{/deleteOrder}" th:object="${deleteForm}"
+          method="POST">
+          <input type="hidden" name="itemId" th:value="${order.itemId}" />
+          <input type="submit" value="削除" />
+        </form>
+      </td>
       <!-- TODO:円とか個とか無理やり出しているけど今は後回し -->
     </tr>
 

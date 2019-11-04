@@ -49,4 +49,12 @@ public class Cart {
       }
     }
   }
+
+  public void deleteOrder(int itemId) {
+    for (int i = 0; i < orderList.size(); i++) {
+      if (orderList.get(i).getItemId() == itemId) {
+        orderList.remove(i);
+      }
+    }
+  }
 }

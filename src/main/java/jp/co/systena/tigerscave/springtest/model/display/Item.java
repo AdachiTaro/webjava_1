@@ -6,8 +6,7 @@ public class Item {
   private String name;
   private int price;
 
-  public Item() {
-  }
+  public Item() {}
 
   public Item(int i, String n, int p) {
     this.itemId = i;

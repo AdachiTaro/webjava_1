@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import jp.co.systena.tigerscave.springtest.model.display.Cart;
 import jp.co.systena.tigerscave.springtest.model.display.Order;
+import jp.co.systena.tigerscave.springtest.model.form.DeleteForm;
 import jp.co.systena.tigerscave.springtest.model.form.ListForm;
 import jp.co.systena.tigerscave.springtest.service.ListService;
 
@@ -66,9 +67,27 @@ public class ShoppingController {
     Cart cart = (Cart) session.getAttribute("cartList");
 
     mav.addObject("itemList", itemList);
-
     mav.addObject("cart", cart);
+    mav.setViewName("cartView");
 
+    return mav;
+  }
+
+  @RequestMapping(value = "/deleteOrder", method = RequestMethod.POST)
+  public ModelAndView deleteOrder(HttpSession session, ModelAndView mav, DeleteForm deleteForm) {
+    // 押された商品のID
+    int itemId = deleteForm.getItemId();
+    Map itemList = null;
+    if (mListService != null) {
+      itemList = mListService.getItemList();
+    }
+    Cart cart = (Cart) session.getAttribute("cartList");
+    cart.deleteOrder(itemId);
+    cart.setTotalAmount(itemList);
+
+    // カート画面を再生成しているため再表示とは違う気がしている
+    mav.addObject("itemList", itemList);
+    mav.addObject("cart", cart);
     mav.setViewName("cartView");
 
     return mav;
