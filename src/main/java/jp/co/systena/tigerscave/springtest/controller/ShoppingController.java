@@ -1,7 +1,5 @@
 package jp.co.systena.tigerscave.springtest.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import jp.co.systena.tigerscave.springtest.model.display.Cart;
-import jp.co.systena.tigerscave.springtest.model.display.Item;
 import jp.co.systena.tigerscave.springtest.model.display.Order;
 import jp.co.systena.tigerscave.springtest.model.form.ListForm;
 import jp.co.systena.tigerscave.springtest.service.ListService;
@@ -20,7 +17,6 @@ import jp.co.systena.tigerscave.springtest.service.ListService;
 @Controller
 public class ShoppingController {
   ListService mListService = new ListService();
-  Map mItemList = null;
   Cart mCart = new Cart();
 
   @Autowired
@@ -36,8 +32,8 @@ public class ShoppingController {
     // https://qiita.com/alpha_pz/items/d6009a61bd03e2d0769c
     // http://eclipse455.rssing.com/chan-12342211/all_p4.html
     if (mListService != null) {
-      mItemList = mListService.getItemList();
-      model.addAttribute("map", mItemList);
+      Map itemList = mListService.getItemList();
+      model.addAttribute("map", itemList);
     }
     return "ListView";
   }
@@ -60,22 +56,14 @@ public class ShoppingController {
     session.setAttribute("cartList", mCart);
 
     // セッションからカート情報を取得
-    Object cartList = session.getAttribute("cartList");
-
-    // 注文番号の羅列
-    List<Order> orderList = ((Cart) cartList).getOrderList();
-
-    // 注文商品一覧
-    List<Item> orderItemList = new ArrayList<>();
-
-    // 注文番号と一致する商品を注文商品一覧に格納
-    for (int i = 0; i < orderList.size(); i++) {
-      int orderId = orderList.get(i).getItemId();
-      Item cartItem = (Item) mItemList.get(Integer.toString(orderId));
-      orderItemList.add(cartItem);
+    Cart cart = (Cart) session.getAttribute("cartList");
+    Map itemList = null;
+    if (mListService != null) {
+      itemList = mListService.getItemList();
     }
+    mav.addObject("itemList", itemList);
 
-    mav.addObject("CartItem", orderItemList);
+    mav.addObject("cart", cart);
 
     mav.setViewName("cartView");
 

@@ -6,11 +6,13 @@
 </head>
 <body>
   <h1 th:text="カート"></h1>
-  <table th:object=${CartItem}>
-    <tr th:each="item : ${CartItem}">
-      <td>[[${item.name}]]</td>
-      <td>[[${item.price}]]円</td>
-      <td>[[${order.num}]]円</td>
+  <table>
+    <tr th:each="order : ${cart.orderList}">
+      <td th:text=${itemList[order.itemId.toString()].name}></td>
+      <td th:text=${itemList[order.itemId.toString()].price}></td>
+      <td th:text=${order.num}></td>
+      <!-- 円とか個とか出てないけど今は後回し -->
+
     </tr>
   </table>
 
