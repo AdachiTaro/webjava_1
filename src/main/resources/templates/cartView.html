@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8" />
 <title>CartView</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h1 th:text="カート"></h1>
-  <table>
+  <table class="table table-striped">
+    <tr class="table-primary">
+      <th th:text="商品名"></th>
+      <th th:text="価格"></th>
+      <th th:text="数量"></th>
+      <th th:text="合計" colspan="2"></th>
+    </tr>
     <tr th:each="order : ${cart.orderList}">
       <td th:text=${itemList[order.itemId.toString()].name}></td>
-      <td th:text=${itemList[order.itemId.toString()].price}></td>
-      <td th:text="円"></td>
-      <td th:text=${order.num}></td>
-      <td th:text="個"></td>
-      <td th:text="合計"></td>
+      <td th:text="${itemList[order.itemId.toString()].price} + '円'"></td>
+      <td th:text="${order.num} + '個'"></td>
       <td
-        th:text=${itemList[order.itemId.toString()].price}*${order.num}></td>
-      <td th:text="円"></td>
+        th:text="${itemList[order.itemId.toString()].price}*${order.num} + '円'"></td>
       <td>
         <form th:action="@{/deleteOrder}" th:object="${deleteForm}"
           method="POST">
@@ -24,19 +29,19 @@
           <input type="submit" value="削除" />
         </form>
       </td>
-      <!-- TODO:円とか個とか無理やり出しているけど今は後回し -->
     </tr>
 
-    <tr>
-      <td th:text="カート合計"></td>
-      <td th:text=${cart.totalAmount}></td>
-      <td th:text="円"></td>
+    <tr class="table-info">
+      <td align="right" colspan="3" th:text="カート合計"></td>
+      <td colspan="2" th:text="${cart.totalAmount} + '円'"></td>
     </tr>
   </table>
 
   <form th:action="@{/itemlist}">
     <input type="submit" value="商品一覧に戻る" />
   </form>
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>
 </html>

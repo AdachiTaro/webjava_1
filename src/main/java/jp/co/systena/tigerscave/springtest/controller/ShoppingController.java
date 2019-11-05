@@ -68,6 +68,8 @@ public class ShoppingController {
 
     mav.addObject("itemList", itemList);
     mav.addObject("cart", cart);
+
+    // テンプレート名を設定
     mav.setViewName("cartView");
 
     return mav;
